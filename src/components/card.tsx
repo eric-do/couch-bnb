@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from 'react';
 import { FaCircle, FaHeart } from "react-icons/fa"
 import { IHouseCard } from "~/types";
+import Carousel, { CarouselItem } from "./carousel";
 
 interface Props {
   house: IHouseCard
@@ -17,14 +18,10 @@ export default function HouseCard({
     reviewCount,
     tags
 }}: Props) {
-  const [isHiddenButtons, setButtonsHidden] = useState(true);
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   return (
     <div
       className="flex flex-col"
-      onMouseEnter={() => setButtonsHidden(false)}
-      onMouseLeave={() => setButtonsHidden(true)}
     >
 
       {/* Image carousel */}
@@ -33,50 +30,24 @@ export default function HouseCard({
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
           <FaHeart size={20} className="opacity-50"/>
         </div>
-        <div className="aspect-square carousel">
-        {
-          images.map((image, i) => {
-            const prev = i - 1 < 0 ? images.length - 1 : i - 1;
-            const next = i + 1 > images.length - 1 ? 0 : i + 1;
-
-            return (
-              <div id={`listing-${id}-slide-${i}`} key={image} className="carousel-item relative w-full">
-                <Image
-                  src={image}
-                  className='aspect-square rounded-lg bg-yellow-300 w-full'
-                  alt="house"
-                  fill
-                />
-                <div className={`absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 ${isHiddenButtons && "hidden"}`}>
-                  <div>
-                    <a href={`#listing-${id}-slide-${prev}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === 0 && "hidden"}`}>
-                      ❮
-                    </a>
-                  </div>
-                  <div>
-                    <a href={`#listing-${id}-slide-${next}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === images.length - 1 && "hidden"}`}>
-                      ❯
-                    </a>
-                  </div>
-                </div>
-              </div>
-            )
-          })
-        }
-        <div className="absolute flex left-1 right-1 bottom-3 mx-5 z-40 justify-center items-center">
-          {
-            images.map((image, i) => {
-            return (
-              <FaCircle
-                key={image}
-                size={9}
-                className="opacity-70 text-white mx-0.5"
-                data-testid="image-bullet"
-              />
-            );
-            })
-          }
-        </div>
+        <div className="aspect-squares">
+          <Carousel>
+            {
+              images.map((image) => {
+                return (
+                  <CarouselItem key={image}>
+                    <Image
+                      src={image}
+                      className='aspect-square rounded-lg bg-yellow-300 w-full'
+                      alt="house"
+                      width={1000}
+                      height={1000}
+                    />
+                  </CarouselItem>
+                )
+              })
+            }
+         </Carousel>
         </div>
       </div>
 

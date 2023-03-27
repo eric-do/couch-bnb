@@ -4,9 +4,9 @@ import type { IHouseCard } from "~/types";
 const houses: IHouseCard[] = [{
   id: "house1",
   images: [
-    "https://picsum.photos/1000",
-    "https://picsum.photos/950",
-    "https://picsum.photos/925"
+    "https://picsum.photos/2000",
+    "https://picsum.photos/1900",
+    "https://picsum.photos/1950"
   ],
   title: "A test house",
   description: "A test house description that should take 2 lines",
@@ -18,9 +18,9 @@ const houses: IHouseCard[] = [{
 {
   id: "house2",
   images: [
-    "https://picsum.photos/920",
-    "https://picsum.photos/900",
-    "https://picsum.photos/890"
+    "https://picsum.photos/1980",
+    "https://picsum.photos/1920",
+    "https://picsum.photos/1910"
   ],
   title: "A test house 2",
   description: "A test house description that should take 2 lines or maybe not",
@@ -32,9 +32,9 @@ const houses: IHouseCard[] = [{
 {
   id: "house3",
   images: [
-    "https://picsum.photos/930",
-    "https://picsum.photos/915",
-    "https://picsum.photos/895"
+    "https://picsum.photos/1930",
+    "https://picsum.photos/1915",
+    "https://picsum.photos/1895"
   ],
   title: "A test house 3",
   description: "A test house description that should take 2 lines or maybe not but this time yes",

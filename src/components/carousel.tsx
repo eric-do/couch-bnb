@@ -52,7 +52,7 @@ export default function Carousel({ children }: CarouselProps) {
       </div>
 
       {/* bullets */}
-      <div className="absolute flex left-1 right-1 bottom-3 mx-5 z-40 justify-center items-center">
+      <div className="absolute flex left-1 right-1 bottom-5 mx-5 z-40 justify-center items-center">
         {
           React.Children.map(children, (_, i) => {
           return (

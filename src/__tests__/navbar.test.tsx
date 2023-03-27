@@ -3,7 +3,7 @@ import Navbar from '~/components/navbar'
 import '@testing-library/jest-dom'
 
 describe('Navbar', () => {
-  it('renders a heading', () => {
+  it('renders site page links', () => {
     render(<Navbar />)
 
     const searchLink = screen.getByRole('link', { name: 'Search' });

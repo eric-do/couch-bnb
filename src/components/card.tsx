@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from 'react';
-import { FaRegHeart, FaHeart } from "react-icons/fa"
+import { FaCircle, FaHeart } from "react-icons/fa"
 import { IHouseCard } from "~/types";
 
 interface Props {
@@ -18,6 +18,7 @@ export default function HouseCard({
     tags
 }}: Props) {
   const [isHiddenButtons, setButtonsHidden] = useState(true);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   return (
     <div
@@ -28,9 +29,9 @@ export default function HouseCard({
 
       {/* Image carousel */}
       <div className="w-full relative">
-        <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-50">
+        <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
-          <FaRegHeart size={20}/>
+          <FaHeart size={20} className="opacity-50"/>
         </div>
         <div className="aspect-square carousel">
         {
@@ -42,7 +43,7 @@ export default function HouseCard({
               <div id={`listing-${id}-slide-${i}`} key={image} className="carousel-item relative w-full">
                 <Image
                   src={image}
-                  className='aspect-square rounded-lg bg-yellow-300'
+                  className='aspect-square rounded-lg bg-yellow-300 w-full'
                   alt="house"
                   fill
                 />
@@ -62,6 +63,20 @@ export default function HouseCard({
             )
           })
         }
+        <div className="absolute flex left-1 right-1 bottom-3 mx-5 z-40 justify-center items-center">
+          {
+            images.map((image, i) => {
+            return (
+              <FaCircle
+                key={image}
+                size={9}
+                className="opacity-70 text-white mx-0.5"
+                data-testid="image-bullet"
+              />
+            );
+            })
+          }
+        </div>
         </div>
       </div>
 

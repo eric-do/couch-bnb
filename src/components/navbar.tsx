@@ -7,7 +7,7 @@ export default function Navbar() {
   const [isHiddenMenu, setMenuHidden] = useState<boolean>(true);
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 z-50 fixed w-full">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
       <Link href="/" className="flex items-center">
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">CouchBNB</span>
@@ -23,7 +23,8 @@ export default function Navbar() {
             onClick={() => setProfileHidden(p => !p)}
           >
             <span className="sr-only">Open user menu</span>
-            <div className="w-8 h-8 rounded-full bg-red-400" >
+            <div className="w-8 h-8 rounded-full bg-red-400 flex items-center justify-center text-white" >
+              ED
               {/* <Image
                 src="https://picsum.photos/200"
                 alt="user photo"

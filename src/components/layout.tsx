@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: React.ReactNode}) {
   return (
     <div className='max-h-full'>
       <Navbar />
-      <main className="px-5">{children}</main>
+      <main className="px-5 pt-20">{children}</main>
     </div>
   )
 }

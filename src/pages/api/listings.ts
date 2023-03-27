@@ -12,7 +12,7 @@ const houses: IHouseCard[] = [{
   description: "A test house description that should take 2 lines",
   rating: 4.98,
   reviewCount: 135,
-  tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons"],
+  tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons", "French lessons", "coding"],
   status: "superhost"
 },
 {

@@ -27,7 +27,7 @@ export default function Search() {
         <div className="flex flex-col space-y-16 sm:space-y-0 sm:flex-wrap sm:gap-y-10 sm:flex-row">
           {
             houses.map(house =>
-            <div key={house.id} className="sm:max-w-md sm:w-72 sm:flex sm:items-start sm:mr-10">
+            <div key={house.id} className="w-full sm:w-72 sm:flex sm:items-start sm:mr-10">
               <HouseCard house={house} />
             </div>
             )

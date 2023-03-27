@@ -52,7 +52,7 @@ export default function HouseCard({
       </div>
 
       {/* Property details */}
-      <div className='flex flex-col mt-3 text-sm '>
+      <div className='flex flex-col mt-3 text-sm'>
         <div className='flex flex-row justify-between'>
           <span className='text-black font-bold'>{title}</span>
           <div className='space-x-1'>
@@ -60,11 +60,11 @@ export default function HouseCard({
             <span>({reviewCount})</span>
           </div>
         </div>
-        <div className="text-gray-500">{description}</div>
+        <div className="text-gray-500 line-clamp-1 mt-1">{description}</div>
         {
           tags.length > 0 &&
-            <div className="flex flex-wrap gap-y-2 space-x-2 mt-2 items-center">
-              <span className="text-gray-500 font-semibold">Looking for:</span>
+            <div className="flex flex-nowrap sm:w-72 w-fit overflow-scroll gap-y-2 space-x-2 mt-2 items-center">
+              <span className="text-gray-500 font-semibold">Wants:</span>
               {
                 tags.map((tag) => (
                   <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
@@ -74,7 +74,7 @@ export default function HouseCard({
         }
       </div>
       {/* CTA */}
-      <div className="flex justify-center mt-5">
+      <div className="flex justify-center mt-3">
         <button className="btn btn-primary w-full">Send request</button>
       </div>
     </div>

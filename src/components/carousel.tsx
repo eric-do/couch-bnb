@@ -24,7 +24,7 @@ export default function Carousel({ children }: CarouselProps) {
 
   const prev = () => setImageIndex(imageIndex - 1 < 0 ? childrenCount - 1 : imageIndex - 1);
   const next = () => setImageIndex(imageIndex + 1 > childrenCount - 1 ? 0 : imageIndex + 1);
-  console.log({imageIndex, childrenCount, isHiddenButtons})
+
   return (
     <div
       className="w-full h-full relative overflow-hidden"

@@ -14,6 +14,7 @@ export default function HouseCard({
     description,
     rating,
     reviewCount,
+    tags
 }}: Props) {
   const [isHiddenButtons, setButtonsHidden] = useState(true);
 
@@ -65,7 +66,7 @@ export default function HouseCard({
       </div>
 
       {/* Property details */}
-      <div className='flex flex-col mt-3 text-sm'>
+      <div className='flex flex-col mt-3 text-sm '>
         <div className='flex flex-row justify-between'>
           <span className='text-black font-bold'>{title}</span>
           <div className='space-x-1'>
@@ -74,6 +75,14 @@ export default function HouseCard({
           </div>
         </div>
         <div className="text-gray-500">{description}</div>
+        <div className="flex flex-wrap gap-y-2 space-x-2 mt-2 items-center">
+          <span className="text-gray-500 font-semibold">Looking for:</span>
+          {
+            tags.map((tag) => (
+              <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
+            ))
+          }
+        </div>
       </div>
 
       {/* CTA */}

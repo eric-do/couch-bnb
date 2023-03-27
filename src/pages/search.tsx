@@ -1,47 +1,40 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '~/styles/Home.module.css'
+import { useState, useEffect } from 'react';
 import HouseCard from '~/components/card'
 import { IHouseCard } from '~/types'
 
-
-const houses: IHouseCard[] = [{
-  images: [
-    "https://picsum.photos/1000",
-    "https://picsum.photos/1000",
-    "https://picsum.photos/1000"
-  ],
-  title: "A test house",
-  description: "A test house description that should take 2 lines",
-  rating: 4.98,
-  reviewCount: 135,
-  tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons"],
-  status: "superhost"
-},
-{
-  images: [
-    "https://picsum.photos/900",
-    "https://picsum.photos/900",
-    "https://picsum.photos/900"
-  ],
-  title: "A test house 2",
-  description: "A test house description that should take 2 lines or maybe not",
-  rating: 4.80,
-  reviewCount: 15,
-  tags: [],
-  status: "new"
-}]
-
 export default function Search() {
+  const [houses, setData] = useState<IHouseCard[]>([]);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function getData() {
+      setLoading(true);
+      const res = await fetch('/api/listings')
+      const data = await res.json();
+      setData(data);
+      setLoading(false);
+    }
+
+    getData();
+  }, [])
+
   return (
-    <div>
-      Search page
-      <div className="flex flex-col space-y-16">
-        {
-          houses.map(house => <HouseCard house={house} key={house.title}/>)
-        }
+    <div className="bg-yellow-400 relative">
+      <div className="mb-60 bg-yellow-500 absolute" />
+
+      <div className="bg-white">
+        Search page
+        <div className="flex flex-col space-y-16 sm:space-y-0 sm:flex-wrap sm:gap-y-10 sm:flex-row">
+          {
+            houses.map(house =>
+            <div key={house.id} className="sm:max-w-md sm:w-72 sm:flex sm:items-start sm:mr-10">
+              <HouseCard house={house} />
+            </div>
+            )
+          }
+        </div>
       </div>
+
     </div>
   )
 }

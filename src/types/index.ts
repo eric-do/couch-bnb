@@ -1,4 +1,5 @@
 export interface IHouseCard {
+  id: string;
   images: string[];
   title: string;
   description: string;

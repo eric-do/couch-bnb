@@ -9,6 +9,7 @@ interface Props {
 
 export default function HouseCard({
   house: {
+    id,
     images,
     title,
     description,
@@ -27,7 +28,7 @@ export default function HouseCard({
 
       {/* Image carousel */}
       <div className="w-full relative">
-        <div className="absolute flex left-3 right-3 justify-between mt-5 mx-5 z-50">
+        <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-50">
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
           <FaRegHeart size={20}/>
         </div>
@@ -38,22 +39,21 @@ export default function HouseCard({
             const next = i + 1 > images.length - 1 ? 0 : i + 1;
 
             return (
-              <div id={`slide${i}`} key={image} className="carousel-item relative w-full">
+              <div id={`listing-${id}-slide-${i}`} key={image} className="carousel-item relative w-full">
                 <Image
-                  src={images[0]}
+                  src={image}
                   className='aspect-square rounded-lg bg-yellow-300'
-                  width={600}
-                  height={600}
                   alt="house"
+                  fill
                 />
                 <div className={`absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2 ${isHiddenButtons && "hidden"}`}>
                   <div>
-                    <a href={`#slide${prev}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === 0 && "hidden"}`}>
+                    <a href={`#listing-${id}-slide-${prev}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === 0 && "hidden"}`}>
                       ❮
                     </a>
                   </div>
                   <div>
-                    <a href={`#slide${next}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === images.length - 1 && "hidden"}`}>
+                    <a href={`#listing-${id}-slide-${next}`} className={`btn btn-sm btn-circle bg-white text-black font-light opacity-80 border-gray-300 shadow-md ${i === images.length - 1 && "hidden"}`}>
                       ❯
                     </a>
                   </div>
@@ -75,16 +75,18 @@ export default function HouseCard({
           </div>
         </div>
         <div className="text-gray-500">{description}</div>
-        <div className="flex flex-wrap gap-y-2 space-x-2 mt-2 items-center">
-          <span className="text-gray-500 font-semibold">Looking for:</span>
-          {
-            tags.map((tag) => (
-              <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
-            ))
-          }
-        </div>
+        {
+          tags.length > 0 &&
+            <div className="flex flex-wrap gap-y-2 space-x-2 mt-2 items-center">
+              <span className="text-gray-500 font-semibold">Looking for:</span>
+              {
+                tags.map((tag) => (
+                  <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
+                ))
+              }
+            </div>
+        }
       </div>
-
       {/* CTA */}
       <div className="flex justify-center mt-5">
         <button className="btn btn-primary w-full">Send request</button>

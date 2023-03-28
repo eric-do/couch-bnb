@@ -1,4 +1,6 @@
 import Modal from "~/components/modal";
+import DatePicker from "../forms/datePicker";
+import TextArea from "../forms/textarea";
 
 interface Props {
   onClose: () => void;
@@ -8,19 +10,20 @@ export default function SendRequestModal({ onClose }: Props) {
   return (
     <Modal onClose={onClose}>
       <div className="w-96 flex justify-center flex-col space-y-5">
-        <h1 className="text-2xl font-bold">Send Request</h1>
-        <div className="flex flex-row justify-between items-start">
+        <h1 className="text-2xl font-bold text-black">Send Request</h1>
+
+        <div className="flex flex-row justify-between items-start text-black">
           <div className="flex flex-row justify-start">
             <div className="pr-1">From:</div>
-            <input type="date"  className="border border-black pl-2"/>
+            <DatePicker />
           </div>
           <div className="flex flex-row justify-start">
             <div className="pr-1">To:</div>
-            <input type="date"  className="border border-black pl-2"/>
+            <DatePicker />
           </div>
 
         </div>
-        <textarea className="border border-black p-2 resize-none w-full"></textarea>
+        <TextArea />
         <button className="btn btn-primary">Send Request</button>
       </div>
     </Modal>

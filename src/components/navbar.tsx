@@ -7,7 +7,7 @@ export default function Navbar() {
   const [isHiddenMenu, setMenuHidden] = useState<boolean>(true);
 
   return (
-    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 z-50 fixed w-full">
+    <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 dark:bg-gray-900 z-navbar fixed w-full">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
       <Link href="/" className="flex items-center">
           <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">CouchBNB</span>
@@ -34,7 +34,7 @@ export default function Navbar() {
           </button>
 
           { /* Profile Dropdown Menu */ }
-          <div className={`z-50 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-5 right-0 ${isHiddenProfile && "hidden"}`} id="user-dropdown">
+          <div className={`z-navbar my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-5 right-0 ${isHiddenProfile && "hidden"}`} id="user-dropdown">
             <div className="px-4 py-3">
               <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
               <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>

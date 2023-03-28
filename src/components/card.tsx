@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useState } from 'react';
-import { FaCircle, FaHeart } from "react-icons/fa"
+import { createPortal } from "react-dom";
+import { FaHeart } from "react-icons/fa"
 import { IHouseCard } from "~/types";
 import Carousel, { CarouselItem } from "./carousel";
+import SendRequestModal from "./modals/sendRequest";
 
 interface Props {
   house: IHouseCard
@@ -18,6 +20,7 @@ export default function HouseCard({
     reviewCount,
     tags
 }}: Props) {
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div
@@ -75,7 +78,16 @@ export default function HouseCard({
       </div>
       {/* CTA */}
       <div className="flex justify-center mt-3">
-        <button className="btn btn-primary w-full">Send request</button>
+        <button
+          className="btn btn-primary w-full"
+          onClick={() => setShowModal(true)}
+        >
+          Send request
+        </button>
+        { showModal && createPortal(
+            <SendRequestModal onClose={() => setShowModal(false)} />,
+            document.body
+        )}
       </div>
     </div>
   )

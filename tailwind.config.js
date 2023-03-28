@@ -4,7 +4,13 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      zIndex: {
+        'navbar': '60',
+        'overlay': '65',
+        'modal': '70',
+      }
+    },
   },
   plugins: [require("daisyui"), require('@tailwindcss/line-clamp')],
 }

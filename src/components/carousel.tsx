@@ -11,7 +11,7 @@ interface CarouselProps {
 
 export function CarouselItem({ children }: ItemProps) {
   return (
-    <div className="inline-flex h-full">
+    <div className="inline-flex h-full sm:h-72">
         { children }
     </div>
   );

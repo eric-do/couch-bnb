@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, TileLayer, useMap, ZoomControl } from 'react-leaflet'
 
 interface MapProps {
   children: React.ReactNode;
@@ -7,19 +7,19 @@ interface MapProps {
 }
 
 export default function Map({ children, className }: MapProps) {
-  console.log('hi')
-
   return (
     <MapContainer
       center={[51.505, -0.09]}
       zoom={13}
       scrollWheelZoom={false}
       className={`${className}`}
+      zoomControl={false}
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <ZoomControl position="topright" />
       { children }
     </MapContainer>
   );

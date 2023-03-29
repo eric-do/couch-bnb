@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { IHouseCard } from '~/types';
 import HouseCard from '~/components/card';
 
-describe('Navbar', () => {
+describe('Listing card', () => {
   it('renders a correct elements', () => {
 
     const house: IHouseCard = {
@@ -21,7 +21,9 @@ describe('Navbar', () => {
       status: "superhost"
     };
 
-    render(<HouseCard house={house} />)
+    const favorites = [house.id];
+
+    render(<HouseCard house={house} favorites={favorites} />)
 
     const images = screen.queryAllByRole('img');
     const title = screen.getByText(house.title);
@@ -29,6 +31,7 @@ describe('Navbar', () => {
     const rating = screen.getByText(house.rating);
     const reviewCount = screen.getByText(`(${house.reviewCount})`);
     const imageBullets = screen.queryAllByTestId("image-bullet");
+    const favorite = screen.getByTestId('favorite-active');
 
 
     expect(images.length).toBe(house.images.length);
@@ -37,10 +40,36 @@ describe('Navbar', () => {
     expect(description).toBeInTheDocument();
     expect(rating).toBeInTheDocument();
     expect(reviewCount).toBeInTheDocument();
+    expect(favorite).toBeInTheDocument();
 
     house.tags.forEach(tag => {
       const res = screen.getByText(tag);
       expect(res).toBeInTheDocument();
     })
+  })
+  it('does not render active favorite if listing is not in user favorites', () => {
+
+    const house: IHouseCard = {
+      id: "house1",
+      images: [
+        "https://picsum.photos/1000",
+        "https://picsum.photos/950",
+        "https://picsum.photos/925"
+      ],
+      title: "A test house",
+      description: "A test house description that should take 2 lines",
+      rating: 4.98,
+      reviewCount: 135,
+      tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons"],
+      status: "superhost"
+    };
+
+    const favorites: string[] = [];
+
+    render(<HouseCard house={house} favorites={favorites} />)
+
+    const inactiveFavorite = screen.getByTestId('favorite-inactive');
+
+    expect(inactiveFavorite).toBeInTheDocument();
   })
 })

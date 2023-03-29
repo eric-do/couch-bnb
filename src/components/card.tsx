@@ -7,7 +7,8 @@ import Carousel, { CarouselItem } from "./carousel";
 import SendRequestModal from "./modals/sendRequest";
 
 interface Props {
-  house: IHouseCard
+  house: IHouseCard;
+  favorites: string[];
 }
 
 export default function HouseCard({
@@ -18,8 +19,10 @@ export default function HouseCard({
     description,
     rating,
     reviewCount,
-    tags
-}}: Props) {
+    tags,
+  },
+  favorites
+}: Props) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -31,7 +34,8 @@ export default function HouseCard({
       <div className="w-full relative">
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
-          <FaHeart size={20} className="opacity-50"/>
+          {!favorites.includes(id) && <FaHeart data-testid="favorite-inactive" size={25} className="opacity-50 text-black"/>}
+          {favorites.includes(id) && <FaHeart data-testid="favorite-active" size={25} className="opacity-100 text-red-500"/>}
         </div>
         <div className="aspect-squares">
           <Carousel>

@@ -17,6 +17,7 @@ describe('Listing card', () => {
       description: "A test house description that should take 2 lines",
       rating: 4.98,
       reviewCount: 135,
+      position: [51.505, -0.09],
       tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons"],
       status: "superhost"
     };
@@ -60,6 +61,7 @@ describe('Listing card', () => {
       description: "A test house description that should take 2 lines",
       rating: 4.98,
       reviewCount: 135,
+      position: [51.505, -0.09],
       tags: ["cooking", "cleaning", "yoga lessons", "Spanish lessons"],
       status: "superhost"
     };

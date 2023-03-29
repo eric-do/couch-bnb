@@ -25,18 +25,29 @@ export default function HouseCard({
 }: Props) {
   const [showModal, setShowModal] = useState(false);
 
+  const addFavorite = () => {
+
+  }
+
+  const removeFavorite = () => {
+
+  }
+
   return (
     <div
       className="flex flex-col"
     >
 
-      {/* Image carousel */}
       <div className="w-full relative">
+
+        {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
           {!favorites.includes(id) && <FaHeart data-testid="favorite-inactive" size={25} className="opacity-50 text-black"/>}
           {favorites.includes(id) && <FaHeart data-testid="favorite-active" size={25} className="opacity-100 text-red-500"/>}
         </div>
+
+        {/* Image carousel */}
         <div className="aspect-squares">
           <Carousel>
             {

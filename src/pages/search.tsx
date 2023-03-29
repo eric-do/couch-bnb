@@ -3,44 +3,20 @@ import HouseCard from '~/components/card'
 import { IHouseCard } from '~/types'
 import SearchInput from '~/components/search';
 import { LazyMap, LazyMarker } from '~/components/leafletMap.lazy';
+import { useListings, useFavorites } from '~/api/';
 
 export default function Search() {
-  const [houses, setHouses] = useState<IHouseCard[]>([]);
-  const [favorites, setFavorites] = useState<string[]>([]);
-  const [isLoading, setLoading] = useState(false);
-  const [isError, setError] = useState(false);
+  const {
+    listings,
+    isError: isErrorListings,
+    isLoading: isLoadingListings
+  } = useListings();
 
-  useEffect(() => {
-    async function getListings() {
-      const res = await fetch('/api/listings')
-
-      if (res.status >= 400 && res.status < 600) {
-        throw new Error("Could not get listings")
-      } else {
-        const data = await res.json();
-        setHouses(data);
-      }
-    }
-
-    async function getFavorites() {
-      const res = await fetch('/api/me/favorites')
-
-      if (res.status >= 400 && res.status < 600) {
-        throw new Error("Could not get listings")
-      } else {
-        const data = await res.json();
-        setFavorites(data);
-      }
-    }
-
-    setLoading(true);
-
-    Promise
-      .all([getListings(), getFavorites()])
-      .then(() => setLoading(false))
-      .catch(() => setError(true))
-  }, [])
-
+  const {
+    favorites,
+    isError: isErrorFavorites,
+    isLoading: isLoadingFavorites
+  } = useFavorites();
 
   return (
     <div className="">
@@ -65,9 +41,9 @@ export default function Search() {
         </div>
         <div className="flex flex-col space-y-16 sm:space-y-0 sm:flex-wrap sm:gap-y-10 sm:flex-row ">
           {
-            houses.map(house =>
-            <div key={house.id} className="w-full sm:w-72 sm:flex sm:items-start sm:mr-10">
-              <HouseCard house={house} favorites={favorites}/>
+            listings && listings.map(listing =>
+            <div key={listing.id} className="w-full sm:w-72 sm:flex sm:items-start sm:mr-10">
+              <HouseCard house={listing} favorites={favorites || []}/>
             </div>
             )
           }

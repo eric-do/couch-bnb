@@ -37,7 +37,11 @@ export const generateListings = (count: number): IHouseCard[] => {
         .from({
           length: generateRandomInt(10)
         })
-        .map(_ => faker.lorem.word()),
+        .map((_, i) => faker.lorem.word() + i),
       status: ["superhost", "new"][generateRandomInt(2)]
     }))
+}
+
+export const generateFavorites = (listings: IHouseCard[], count: number) => {
+  return listings.slice(0, count).map(listing => listing.id);
 }

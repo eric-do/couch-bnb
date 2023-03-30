@@ -1,18 +1,20 @@
 import { rest } from 'msw'
-import { generateListings } from './data'
+import { generateFavorites, generateListings } from './data'
+
+const listings = generateListings(5)
 
 export const handlers = [
   rest.get('/api/listings', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json(generateListings(5))
+      ctx.json(listings)
     )
   }),
 
   rest.get('/me/favorites', (req, res, ctx) => {
     return res(
       ctx.status(200),
-      ctx.json(['home1', 'home3'])
+      ctx.json([generateFavorites(listings, 2)])
     )
   })
 ]

@@ -35,7 +35,7 @@ const customRender = (ui: any, options?: any) =>
 // re-export everything
 export * from '@testing-library/react';
 
-// override render method
+// override render methods
 export {
   customRender as render,
   server

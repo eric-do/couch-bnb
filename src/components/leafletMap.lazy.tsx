@@ -7,3 +7,7 @@ export const LazyMarker = dynamic(
   { ssr: false }
 )
 
+export const LazyPopup = dynamic(
+  async () => (await import('react-leaflet')).Popup,
+  { ssr: false }
+)

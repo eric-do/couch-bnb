@@ -32,6 +32,7 @@ describe('Listing card', () => {
     const description = screen.getByText(house.description);
     const rating = screen.getByText(house.rating);
     const reviewCount = screen.getByText(`(${house.reviewCount})`);
+    const status = screen.getByText(`${house.status}`);
     const imageBullets = screen.queryAllByTestId("image-bullet");
     const favorite = screen.getByTestId('favorite-active');
 
@@ -43,6 +44,7 @@ describe('Listing card', () => {
     expect(rating).toBeInTheDocument();
     expect(reviewCount).toBeInTheDocument();
     expect(favorite).toBeInTheDocument();
+    expect(status).toBeInTheDocument();
 
     house.tags.forEach(tag => {
       const res = screen.getByText(tag);

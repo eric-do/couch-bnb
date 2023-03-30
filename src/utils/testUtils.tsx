@@ -2,7 +2,6 @@ import '@testing-library/jest-dom/extend-expect';
 import { FC, ReactNode } from 'react';
 import { render } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 import { server } from './mocks/server';
 
 type AllTheProvidersProps = {
@@ -37,4 +36,7 @@ const customRender = (ui: any, options?: any) =>
 export * from '@testing-library/react';
 
 // override render method
-export { customRender as render };
+export {
+  customRender as render,
+  server
+ };

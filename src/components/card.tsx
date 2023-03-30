@@ -47,7 +47,7 @@ export default function HouseCard({
 
         {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
-          <div className="btn btn-info btn-xs rounded-md">Superhost</div>
+          <div className="btn btn-info btn-xs rounded-md">superhost</div>
           {!favorites.includes(id) && <FaHeart
             data-testid="favorite-inactive"
             size={25}
@@ -112,7 +112,7 @@ export default function HouseCard({
           className="btn btn-primary w-full"
           onClick={() => setShowModal(true)}
         >
-          Send request
+          send request
         </button>
         { showModal && createPortal(
             <SendRequestModal onClose={() => setShowModal(false)} />,

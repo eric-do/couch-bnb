@@ -21,6 +21,7 @@ export default function HouseCard({
     rating,
     reviewCount,
     tags,
+    status
   },
   favorites
 }: Props) {
@@ -47,7 +48,7 @@ export default function HouseCard({
 
         {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
-          <div className="btn btn-info btn-xs rounded-md">superhost</div>
+          <div className="btn btn-info btn-xs rounded-md">{`${status}`}</div>
           {!favorites.includes(id) && <FaHeart
             data-testid="favorite-inactive"
             size={25}

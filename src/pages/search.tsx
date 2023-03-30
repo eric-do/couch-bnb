@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import HouseCard from '~/components/card'
 import { IHouseCard } from '~/types'
 import SearchInput from '~/components/search';
-import { LazyMap, LazyMarker } from '~/components/leafletMap.lazy';
+import { LazyMap, LazyMarker, LazyPopup } from '~/components/leafletMap.lazy';
 import { useListings, useFavorites } from '~/api/';
 
 export default function Search() {
@@ -24,7 +24,9 @@ export default function Search() {
       {/* Map */}
       <LazyMap className="h-screen w-screen fixed top-44">
         <LazyMarker position={[51.505, -0.09]}>
-          <div>test</div>
+          <LazyPopup>
+            <div>test</div>
+          </LazyPopup>
         </LazyMarker>
       </LazyMap>
 

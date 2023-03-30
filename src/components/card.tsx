@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa"
 import { IHouseCard } from "~/types";
 import Carousel, { CarouselItem } from "./carousel";
 import SendRequestModal from "./modals/sendRequest";
+import { useAddFavorite, useDeleteFavorite } from "~/api/";
 
 interface Props {
   house: IHouseCard;
@@ -24,14 +25,18 @@ export default function HouseCard({
   favorites
 }: Props) {
   const [showModal, setShowModal] = useState(false);
-
-  const addFavorite = () => {
-
-  }
-
-  const removeFavorite = () => {
-
-  }
+  const {
+    mutate: addFavorite,
+    isSuccess: isSuccessAddFavorite,
+    isLoading: isLoadingAddFavorite,
+    isError: isErrorAddFavorite
+  }  = useAddFavorite(id);
+  const {
+    mutate: deleteFavorite,
+    isSuccess: isSuccessDeleteFavorite,
+    isLoading: isLoadingDeleteFavorite,
+    isError: isErrorDeleteFavorite
+  }  = useDeleteFavorite(id);
 
   return (
     <div
@@ -43,8 +48,18 @@ export default function HouseCard({
         {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
           <div className="btn btn-info btn-xs rounded-md">Superhost</div>
-          {!favorites.includes(id) && <FaHeart data-testid="favorite-inactive" size={25} className="opacity-50 text-black"/>}
-          {favorites.includes(id) && <FaHeart data-testid="favorite-active" size={25} className="opacity-100 text-red-500"/>}
+          {!favorites.includes(id) && <FaHeart
+            data-testid="favorite-inactive"
+            size={25}
+            className="opacity-50 text-black"
+            onClick={() => addFavorite()}
+          />}
+          {favorites.includes(id) && <FaHeart
+            data-testid="favorite-active"
+            size={25}
+            className="opacity-100 text-red-500"
+            onClick={() => deleteFavorite()}
+          />}
         </div>
 
         {/* Image carousel */}

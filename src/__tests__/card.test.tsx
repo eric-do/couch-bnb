@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { IHouseCard } from '~/types';
 import HouseCard from '~/components/card';
+import { render } from '~/utils/testUtils';
 
 describe('Listing card', () => {
   it('renders a correct elements', () => {
@@ -24,7 +25,7 @@ describe('Listing card', () => {
 
     const favorites = [house.id];
 
-    render(<HouseCard house={house} favorites={favorites} />)
+    render(<HouseCard house={house} favorites={favorites} />);
 
     const images = screen.queryAllByRole('img');
     const title = screen.getByText(house.title);
@@ -68,7 +69,7 @@ describe('Listing card', () => {
 
     const favorites: string[] = [];
 
-    render(<HouseCard house={house} favorites={favorites} />)
+    render(<HouseCard house={house} favorites={favorites} />);
 
     const inactiveFavorite = screen.getByTestId('favorite-inactive');
 

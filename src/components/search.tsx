@@ -34,13 +34,41 @@ interface FakeSearchProps {
   className?: string;
   onClick?: () => void;
 }
+
 export const MobileFakeSearch = ({ className="", onClick }: FakeSearchProps) => {
   return (
     <div
-      className={`w-full px-5 py-5 bg-white flex flex-row justify-start items-center border-gray-300 border lg:hidden rounded-xl ${className}`}
+      className={`w-full px-4 bg-white flex flex-row justify-start items-center border-gray-300 border lg:hidden rounded-xl ${className} cursor-pointer`}
       onClick={onClick}
     >
-      <FaSearch className="mr-5 text-gray-700" />
+      <FaSearch className="mr-5 text-gray-700 my-5" />
+    </div>
+  );
+}
+
+interface MobileFunctionalSearchProps {
+  className?: string;
+  onClick?: () => void;
+  ref: any
+}
+
+export const MobileFunctionalSearch = ({
+  className = "",
+  onClick = () => {},
+  ref
+}: MobileFunctionalSearchProps) => {
+  return (
+    <div
+      className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer`}
+      onClick={onClick}
+    >
+      <FaSearch className="mr-5 text-gray-700 my-5" />
+      <input
+        autoFocus
+        ref={ref}
+        type="text"
+        className="border-0 bg-transparent outline-none font-light text-sm text-black w-full"
+      />
     </div>
   );
 }

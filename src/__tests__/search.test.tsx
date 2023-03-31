@@ -34,4 +34,8 @@ describe('Search page', () => {
     expect(activeFavorites.length).toBe(favoritesCount);
     expect(inactiveFavorites.length).toBe(listings.length - favoritesCount);
   })
+
+  it('displays the search drawer when user clicks on search input', () => {
+
+  })
 })

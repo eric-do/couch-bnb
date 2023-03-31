@@ -48,17 +48,17 @@ export default function HouseCard({
 
         {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
-          <div className="btn btn-info btn-xs rounded-md">{`${status}`}</div>
+          <div className="btn btn-info btn-xs no-animation rounded-md cursor-default">{`${status}`}</div>
           {!favorites.includes(id) && <FaHeart
             data-testid="favorite-inactive"
             size={25}
-            className="opacity-50 text-black"
+            className="opacity-50 text-black cursor-pointer"
             onClick={() => addFavorite()}
           />}
           {favorites.includes(id) && <FaHeart
             data-testid="favorite-active"
             size={25}
-            className="opacity-100 text-red-500"
+            className="opacity-100 text-red-500 cursor-pointer"
             onClick={() => deleteFavorite()}
           />}
         </div>
@@ -101,7 +101,7 @@ export default function HouseCard({
               <span className="text-gray-500 font-semibold">Wants:</span>
               {
                 tags.map((tag) => (
-                  <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
+                  <div key={tag} className="btn btn-xs no-animation btn-accent">{tag}</div>
                 ))
               }
             </div>
@@ -110,7 +110,7 @@ export default function HouseCard({
       {/* CTA */}
       <div className="flex justify-center mt-3">
         <button
-          className="btn btn-primary w-full"
+          className="btn btn-primary no-animation w-full"
           onClick={() => setShowModal(true)}
         >
           send request

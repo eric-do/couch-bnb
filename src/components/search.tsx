@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { FaSearch } from 'react-icons/fa';
 
 interface Props {
@@ -49,14 +49,13 @@ export const MobileFakeSearch = ({ className="", onClick }: FakeSearchProps) => 
 interface MobileFunctionalSearchProps {
   className?: string;
   onClick?: () => void;
-  ref: any
 }
 
-export const MobileFunctionalSearch = ({
-  className = "",
-  onClick = () => {},
-  ref
-}: MobileFunctionalSearchProps) => {
+export const MobileFunctionalSearch = forwardRef<HTMLInputElement, MobileFunctionalSearchProps>(({
+  className,
+  onClick
+}: MobileFunctionalSearchProps, ref) => {
+
   return (
     <div
       className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer`}
@@ -64,11 +63,13 @@ export const MobileFunctionalSearch = ({
     >
       <FaSearch className="mr-5 text-gray-700 my-5" />
       <input
-        autoFocus
+
         ref={ref}
         type="text"
         className="border-0 bg-transparent outline-none font-light text-sm text-black w-full"
       />
     </div>
   );
-}
+})
+
+MobileFunctionalSearch.displayName = "MobileFunctionalSearch";

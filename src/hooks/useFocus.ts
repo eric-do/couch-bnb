@@ -4,8 +4,7 @@ export const useFocus = () => {
   const htmlElRef = useRef<HTMLInputElement>(null)
 
   const setFocus = () => {
-    debugger
-    htmlElRef.current && htmlElRef.current.focus()
+    setTimeout(() => htmlElRef?.current?.focus(), 0)
   };
 
   return [htmlElRef, setFocus] as const;

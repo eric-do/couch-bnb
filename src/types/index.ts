@@ -6,5 +6,6 @@ export interface IHouseCard {
   rating: number;
   reviewCount: number;
   tags: string[];
+  position: [lat: number, lng: number]
   status?: "superhost" | "new"
 }

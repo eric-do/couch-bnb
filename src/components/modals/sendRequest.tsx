@@ -24,7 +24,7 @@ export default function SendRequestModal({ onClose }: Props) {
 
         </div>
         <TextArea />
-        <button className="btn btn-primary">Send Request</button>
+        <button className="btn btn-primary no-animation">Send Request</button>
       </div>
     </Modal>
   );

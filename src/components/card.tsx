@@ -5,6 +5,7 @@ import { FaHeart } from "react-icons/fa"
 import { IHouseCard } from "~/types";
 import Carousel, { CarouselItem } from "./carousel";
 import SendRequestModal from "./modals/sendRequest";
+import { useAddFavorite, useDeleteFavorite } from "~/api/";
 
 interface Props {
   house: IHouseCard;
@@ -20,23 +21,49 @@ export default function HouseCard({
     rating,
     reviewCount,
     tags,
+    status
   },
   favorites
 }: Props) {
   const [showModal, setShowModal] = useState(false);
+  const {
+    mutate: addFavorite,
+    isSuccess: isSuccessAddFavorite,
+    isLoading: isLoadingAddFavorite,
+    isError: isErrorAddFavorite
+  }  = useAddFavorite(id);
+  const {
+    mutate: deleteFavorite,
+    isSuccess: isSuccessDeleteFavorite,
+    isLoading: isLoadingDeleteFavorite,
+    isError: isErrorDeleteFavorite
+  }  = useDeleteFavorite(id);
 
   return (
     <div
       className="flex flex-col"
     >
 
-      {/* Image carousel */}
       <div className="w-full relative">
+
+        {/* Badge and Favorite */}
         <div className="absolute flex left-1 right-1 justify-between mt-5 mx-5 z-40">
-          <div className="btn btn-info btn-xs rounded-md">Superhost</div>
-          {!favorites.includes(id) && <FaHeart data-testid="favorite-inactive" size={25} className="opacity-50 text-black"/>}
-          {favorites.includes(id) && <FaHeart data-testid="favorite-active" size={25} className="opacity-100 text-red-500"/>}
+          <div className="btn btn-info btn-xs no-animation rounded-md cursor-default">{`${status}`}</div>
+          {!favorites.includes(id) && <FaHeart
+            data-testid="favorite-inactive"
+            size={25}
+            className="opacity-50 text-black cursor-pointer"
+            onClick={() => addFavorite()}
+          />}
+          {favorites.includes(id) && <FaHeart
+            data-testid="favorite-active"
+            size={25}
+            className="opacity-100 text-red-500 cursor-pointer"
+            onClick={() => deleteFavorite()}
+          />}
         </div>
+
+        {/* Image carousel */}
         <div className="aspect-squares">
           <Carousel>
             {
@@ -74,7 +101,7 @@ export default function HouseCard({
               <span className="text-gray-500 font-semibold">Wants:</span>
               {
                 tags.map((tag) => (
-                  <div key={tag} className="btn btn-xs btn-accent">{tag}</div>
+                  <div key={tag} className="btn btn-xs no-animation btn-accent">{tag}</div>
                 ))
               }
             </div>
@@ -83,10 +110,10 @@ export default function HouseCard({
       {/* CTA */}
       <div className="flex justify-center mt-3">
         <button
-          className="btn btn-primary w-full"
+          className="btn btn-primary no-animation w-full"
           onClick={() => setShowModal(true)}
         >
-          Send request
+          send request
         </button>
         { showModal && createPortal(
             <SendRequestModal onClose={() => setShowModal(false)} />,

@@ -1,6 +1,39 @@
 import { useState } from 'react';
 import Image from "next/image"
 import Link from "next/link"
+import SearchInput from './search';
+
+interface ILink {
+  title: string;
+  link: string;
+}
+
+const pageLinks: ILink[] = [
+  {
+    title: "Home",
+    link: "/home"
+  },
+  {
+    title: "Search",
+    link: "/search"
+  },
+  {
+    title: "Matches",
+    link: "/matches"
+  }
+];
+
+const profileLinks: ILink[] = [
+  {
+    title: "Settings",
+    link: "#"
+  },
+  {
+    title: "Logout",
+    link: "#"
+  }
+];
+
 
 export default function Navbar() {
   const [isHiddenProfile, setProfileHidden] = useState<boolean>(true);
@@ -40,18 +73,12 @@ export default function Navbar() {
               <span className="block text-sm font-medium text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
             </div>
             <ul className="py-2" aria-labelledby="user-menu-button">
-              <li>
-                <Link href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
-              </li>
-              <li>
-                <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</Link>
-              </li>
-              <li>
-                <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</Link>
-              </li>
-              <li>
-                <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
-              </li>
+              {profileLinks.map(({ link, title }) => (
+                <li key={title}>
+                  <Link href={link} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">{title}</Link>
+                </li>
+
+              ))}
             </ul>
           </div>
           <button
@@ -70,21 +97,12 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       <div className={`items-center justify-between w-full md:flex md:w-auto md:order-1 ${isHiddenMenu && "hidden"}`} id="mobile-menu-2">
         <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-          <li>
-            <Link href="/home" className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</Link>
-          </li>
-          <li>
-            <Link href="/about" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
-          </li>
-          <li>
-            <Link href="/search" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Search</Link>
-          </li>
-          <li>
-            <Link href="/matches" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Matches</Link>
-          </li>
-          <li>
-            <Link href="/profile" className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Profile</Link>
-          </li>
+          {pageLinks.map(({title, link}) => (
+            <li key={title}>
+              <Link href={link} className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">{title}</Link>
+            </li>
+          ))}
+
         </ul>
       </div>
       </div>

@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-const favorites: string[] = [
+let favorites: string[] = [
   'house1',
   'house3'
 ]
@@ -16,14 +16,13 @@ export default function handler(
 ) {
 
   // authenticate user
-
   if (req.method === 'POST') {
     const { body } = req;
     if ("id" in body && typeof body.id === 'string') {
       const { id } = body;
 
       // Add favorite
-
+      favorites.push(id);
       res.status(201).json({ id, status: 'success' })
     }
   } else if (req.method === 'GET') {

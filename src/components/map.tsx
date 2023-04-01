@@ -6,13 +6,13 @@ interface MapProps {
   className?: string;
 }
 
-export default function Map({ children, className }: MapProps) {
+export default function Map({ children, className="" }: MapProps) {
   return (
     <MapContainer
+      className={`${className}`}
       center={[51.505, -0.09]}
       zoom={13}
       scrollWheelZoom={false}
-      className={`${className}`}
       zoomControl={false}
     >
       <TileLayer

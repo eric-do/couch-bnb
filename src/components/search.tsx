@@ -1,5 +1,8 @@
 import React, { useState, forwardRef } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { useDebounce } from '~/hooks/useDebounce';
+import { FaSearch, FaArchway } from 'react-icons/fa';
+import { IoLocationOutline, IoMapOutline } from "react-icons/io5";
+import { useGetLocations } from '~/api';
 
 interface Props {
   location?: string;
@@ -7,6 +10,13 @@ interface Props {
   checkOut?: string;
   className: string;
   onClick?: () => void;
+}
+
+interface City {
+    country: string;
+    name: string;
+    lat: string;
+    lng: string;
 }
 
 export default function SearchInput({
@@ -51,23 +61,57 @@ interface MobileFunctionalSearchProps {
   onClick?: () => void;
 }
 
+//'boundary', 'highway', 'historic', 'tourism', 'amenity', 'place'}
+
+
+const locationTypes = {
+  boundary: <IoMapOutline />,
+  place: <IoLocationOutline />,
+  history: <FaArchway />
+}
+
 export const MobileFunctionalSearch = forwardRef<HTMLInputElement, MobileFunctionalSearchProps>(({
   className,
   onClick
 }: MobileFunctionalSearchProps, ref) => {
+  const [location, setLocation] = useState<string>('');
+  const value = useDebounce(location, 200);
+  const { locations, isError, isLoading } = useGetLocations(value);
+
+  const handleInput = (event: React.FormEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    setLocation(value);
+  }
 
   return (
-    <div
-      className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer`}
-      onClick={onClick}
-    >
-      <FaSearch className="mr-5 text-gray-700 my-5" />
-      <input
-
-        ref={ref}
-        type="text"
-        className="border-0 bg-transparent outline-none font-light text-sm text-black w-full"
-      />
+    <div className="flex flex-col space-y-2">
+      <div
+        className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer`}
+        onClick={onClick}
+      >
+        <FaSearch className="mr-5 text-gray-700 my-5" />
+        <input
+          ref={ref}
+          type="text"
+          className="border-0 bg-transparent outline-none font-light text-sm text-black w-full"
+          value={location}
+          onChange={handleInput}
+        />
+      </div>
+      <div className="flex flex-col space-y-10 text-black text-sm">
+        {
+          locations?.map(({place_id, display_name, category}, index) => (
+            <div key={`${place_id}`} className="flex flex-row space-x-3 cursor-pointer">
+              <span>
+                { category === "boundary" && <IoMapOutline size={20} /> }
+                { category === "place" && <IoLocationOutline size={20} /> }
+                { category === "historic" && <FaArchway size={20}  /> }
+              </span>
+              <span>{display_name}</span>
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 })

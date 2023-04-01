@@ -5,3 +5,7 @@ export {
   useAddFavorite,
   useDeleteFavorite
 } from './useFavorites';
+
+export {
+  useGetLocations
+} from './useLocationSearch';

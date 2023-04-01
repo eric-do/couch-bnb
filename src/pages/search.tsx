@@ -1,12 +1,16 @@
+// External libraries
 import { useState, useEffect } from 'react';
 import { clsx } from 'clsx';
-import { FaTimes, FaChevronLeft } from 'react-icons/fa';
-import HouseCard from '~/components/card'
-import { IHouseCard } from '~/types'
-import SearchInput, { MobileFakeSearch, MobileFunctionalSearch } from '~/components/search';
 import { LazyMap, LazyMarker, LazyPopup } from '~/components/leafletMap.lazy';
+
+// Custom hooks and APIs
 import { useListings, useFavorites } from '~/api/';
 import { useFocus } from '~/hooks/useFocus';
+
+// Components
+import { FaTimes, FaChevronLeft } from 'react-icons/fa';
+import SearchInput, { MobileFakeSearch, MobileFunctionalSearch } from '~/components/search';
+import HouseCard from '~/components/card'
 
 export default function Search() {
   const {

@@ -1,31 +1,14 @@
 import React, { useState, forwardRef } from 'react';
 import { useDebounce } from '~/hooks/useDebounce';
-import { FaSearch, FaArchway } from 'react-icons/fa';
+import { FaSearch, FaArchway, FaRoute } from 'react-icons/fa';
 import { IoLocationOutline, IoMapOutline } from "react-icons/io5";
 import { useGetLocations } from '~/api';
-
-interface Props {
-  location?: string;
-  checkIn?: string;
-  checkOut?: string;
-  className: string;
-  onClick?: () => void;
-}
-
-interface City {
-    country: string;
-    name: string;
-    lat: string;
-    lng: string;
-}
+import type { GenericCustomComponent, SearchLocation } from '~/types';
 
 export default function SearchInput({
-  location,
-  checkIn,
-  checkOut,
   className,
   onClick = () => {}
-}: Props) {
+}: GenericCustomComponent) {
   return (
     <div
       className={`w-full px-5 py-5 bg-gray-200 flex flex-row justify-start items-center shadow-lg lg:hidden rounded-full ${className}`}
@@ -40,12 +23,7 @@ export default function SearchInput({
   );
 }
 
-interface FakeSearchProps {
-  className?: string;
-  onClick?: () => void;
-}
-
-export const MobileFakeSearch = ({ className="", onClick }: FakeSearchProps) => {
+export const MobileFakeSearch = ({ className="", onClick }: GenericCustomComponent) => {
   return (
     <div
       className={`w-full px-4 bg-white flex flex-row justify-start items-center border-gray-300 border lg:hidden rounded-xl ${className} cursor-pointer`}
@@ -54,11 +32,6 @@ export const MobileFakeSearch = ({ className="", onClick }: FakeSearchProps) => 
       <FaSearch className="mr-5 text-gray-700 my-5" />
     </div>
   );
-}
-
-interface MobileFunctionalSearchProps {
-  className?: string;
-  onClick?: () => void;
 }
 
 //'boundary', 'highway', 'historic', 'tourism', 'amenity', 'place'}
@@ -70,10 +43,16 @@ const locationTypes = {
   history: <FaArchway />
 }
 
-export const MobileFunctionalSearch = forwardRef<HTMLInputElement, MobileFunctionalSearchProps>(({
+interface SearchProps {
+  location?: SearchLocation;
+  className?: string;
+  onClick?: (l: SearchLocation) => void;
+}
+
+export const MobileFunctionalSearch = forwardRef<HTMLInputElement, SearchProps>(({
   className,
-  onClick
-}: MobileFunctionalSearchProps, ref) => {
+  onClick: chooseLocation = (location: SearchLocation) => {}
+}: SearchProps, ref) => {
   const [location, setLocation] = useState<string>('');
   const value = useDebounce(location, 200);
   const { locations, isError, isLoading } = useGetLocations(value);
@@ -83,11 +62,15 @@ export const MobileFunctionalSearch = forwardRef<HTMLInputElement, MobileFunctio
     setLocation(value);
   }
 
+  const handleChooseLocation = (location: SearchLocation) => {
+    setLocation('');
+    chooseLocation(location);
+  }
+
   return (
     <div className="flex flex-col space-y-2">
       <div
-        className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer`}
-        onClick={onClick}
+        className={`w-full px-4 bg-gray-100 flex flex-row justify-start items-center lg:hidden rounded-xl ${className} cursor-pointer mb-5`}
       >
         <FaSearch className="mr-5 text-gray-700 my-5" />
         <input
@@ -100,16 +83,24 @@ export const MobileFunctionalSearch = forwardRef<HTMLInputElement, MobileFunctio
       </div>
       <div className="flex flex-col space-y-10 text-black text-sm">
         {
-          locations?.map(({place_id, display_name, category}, index) => (
-            <div key={`${place_id}`} className="flex flex-row space-x-3 cursor-pointer">
+          locations?.map((location, index) => {
+            const {place_id, display_name, category} = location;
+
+            return (<div
+              key={`${place_id}`}
+              className="flex flex-row space-x-3 cursor-pointer"
+              onClick={() => handleChooseLocation(location)}
+            >
               <span>
-                { category === "boundary" && <IoMapOutline size={20} /> }
-                { category === "place" && <IoLocationOutline size={20} /> }
-                { category === "historic" && <FaArchway size={20}  /> }
+                { category === "boundary" ? <IoMapOutline size={20} /> :
+                  category === "place" ? <IoLocationOutline size={20} /> :
+                  category === "historic" ? <FaArchway size={20}  /> :
+                  <FaRoute size={20} />
+                }
               </span>
               <span>{display_name}</span>
             </div>
-          ))
+          )})
         }
       </div>
     </div>

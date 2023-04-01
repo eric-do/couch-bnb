@@ -2,18 +2,10 @@ import {
   useQuery,
 } from '@tanstack/react-query'
 import { axios } from '~/lib/axios';
+import type { SearchLocation } from '~/types';
 
-interface Location {
-  place_id: string;
-  boundingbox: readonly [minLat: string, maxLat: string, minLon: string, maxLon:string],
-  lat: string;
-  lon: string;
-  display_name: string;
-  category: string;
-  importance: number;
-}
 
-export const getLocations = (q: string): Promise<Location[]> => {
+export const getLocations = (q: string): Promise<SearchLocation[]> => {
   return axios.get('https://nominatim.openstreetmap.org/search/',{
     params: {
       q,
@@ -22,8 +14,8 @@ export const getLocations = (q: string): Promise<Location[]> => {
   });
 }
 export function useGetLocations(query: string) {
-  const { data, error, isLoading } = useQuery<Location[]>({
-    queryKey: ['searchLocations', query],
+  const { data, error, isLoading } = useQuery<SearchLocation[]>({
+    queryKey: ['searchLocation', query],
     queryFn: () => getLocations(query)
   });
 

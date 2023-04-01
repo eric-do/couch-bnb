@@ -11,6 +11,7 @@ import { useFocus } from '~/hooks/useFocus';
 import { FaTimes, FaChevronLeft } from 'react-icons/fa';
 import SearchInput, { MobileFakeSearch, MobileFunctionalSearch } from '~/components/search';
 import HouseCard from '~/components/card'
+import { SearchLocation } from '~/types';
 
 export default function Search() {
   const {
@@ -28,6 +29,24 @@ export default function Search() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showMobileFunctionalSearch, setShowMobileFunctionalSearch] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
+  const [chosenLocation, setChosenLocation] = useState<SearchLocation>()
+
+
+
+  const handleCloseDrawer = () => {
+    console.log('click');
+    setIsExpanded(false);
+    setShowMobileFunctionalSearch(false);
+  }
+
+  const handleMobileDrawerBackButton = () => {
+    setShowMobileFunctionalSearch(false);
+  }
+
+  const handleChooseLocation = (location: SearchLocation) => {
+    handleMobileDrawerBackButton();
+    setChosenLocation(location)
+  }
 
   return (
     <div className="">
@@ -48,8 +67,8 @@ export default function Search() {
             'py-4 fixed w-screen px-5 flex items-start justify-center shadow-xl bg-white', // general CSS
             'transition-all duration-300 ease-out', // animations,
             'md:top-16', // medium screen
-            isExpanded ? "h-screen z-modal top-0 bg-gray-200" : "z-50 top-14", // drawer display
-            showMobileFunctionalSearch && "px-0" // functional search display
+            isExpanded ? "h-screen z-modal !top-0 !bg-gray-200" : "z-50 !top-14", // drawer display: ;
+            showMobileFunctionalSearch && "!px-0" // functional search display
           ])
         }
       >
@@ -60,20 +79,10 @@ export default function Search() {
           {/* Close button */}
           <div
             className={`btn btn-circle btn-outline btn-sm border text-gray-400 mb-5 bg-white absolute top-5 left-5`}
+            onClick={!showMobileFunctionalSearch ? handleCloseDrawer : handleMobileDrawerBackButton}
           >
-            {!showMobileFunctionalSearch && <FaTimes
-              className="text-black"
-              onClick={() => {
-                setIsExpanded(false);
-                setShowMobileFunctionalSearch(false);
-              }}
-            />}
-            {showMobileFunctionalSearch && <FaChevronLeft
-              className="text-black"
-              onClick={() => {
-                setShowMobileFunctionalSearch(false);
-              }}
-            />}
+            {!showMobileFunctionalSearch && <FaTimes className="text-black" />}
+            {showMobileFunctionalSearch && <FaChevronLeft className="text-black" />}
           </div>
 
           {/* Drawer content */}
@@ -93,8 +102,17 @@ export default function Search() {
               <MobileFunctionalSearch
                 ref={inputRef}
                 className={`${showMobileFunctionalSearch ? "visible" : "hidden"}`}
+                onClick={handleChooseLocation}
+                location={chosenLocation}
               />
+              {chosenLocation &&
+                  <div className="w-full flex justify-between">
+                    <div className="text-gray-500 text-sm">Where</div>
+                    <div className="text-gray-800 text-sm font-semibold">{chosenLocation.display_name}</div>
+                  </div>
+              }
             </div>
+
             <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
               <div className="text-gray-500 text-sm">When</div>
               <div className="text-gray-800 text-sm font-semibold">Add dates</div>

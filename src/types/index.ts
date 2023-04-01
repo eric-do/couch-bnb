@@ -9,3 +9,18 @@ export interface IHouseCard {
   position: [lat: number, lng: number]
   status?: "superhost" | "new"
 }
+
+export interface SearchLocation {
+  place_id: string;
+  boundingbox: readonly [minLat: string, maxLat: string, minLon: string, maxLon:string],
+  lat: string;
+  lon: string;
+  display_name: string;
+  category: string;
+  importance: number;
+}
+
+export interface GenericCustomComponent {
+  className?: string;
+  onClick?: () => void;
+}

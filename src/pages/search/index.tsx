@@ -9,7 +9,7 @@ import { useFocus } from '~/hooks/useFocus';
 
 // Components
 import { FaTimes, FaChevronLeft } from 'react-icons/fa';
-import SearchInput, { MobileFakeSearch, MobileFunctionalSearch } from '~/components/search';
+import SearchInput, { MobileFakeSearch, MobileFunctionalSearch, SelectedSearch } from '~/components/search';
 import HouseCard from '~/components/card'
 import { SearchLocation } from '~/types';
 
@@ -30,8 +30,7 @@ export default function Search() {
   const [showMobileFunctionalSearch, setShowMobileFunctionalSearch] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [chosenLocation, setChosenLocation] = useState<SearchLocation>()
-
-
+  const [displayState, setDisplayState] = useState< 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected' >('baseDrawer');
 
   const handleCloseDrawer = () => {
     console.log('click');
@@ -40,13 +39,21 @@ export default function Search() {
   }
 
   const handleMobileDrawerBackButton = () => {
-    setShowMobileFunctionalSearch(false);
+    setDisplayState('baseDrawer');
   }
 
   const handleChooseLocation = (location: SearchLocation) => {
     handleMobileDrawerBackButton();
     setChosenLocation(location)
+    setDisplayState('hasSelected')
   }
+
+  const setDisplayStateToBase = () => setDisplayState('base')
+  const setDisplayStateToBaseDrawer = () => setDisplayState('baseDrawer')
+  const setDisplaystateToIsSearching = () => setDisplayState('isSearching')
+  const setDisplayStateToHasSelected = () => setDisplayState('hasSelected')
+
+  const setClearLocation = () => setChosenLocation(undefined);
 
   return (
     <div className="">
@@ -68,7 +75,7 @@ export default function Search() {
             'transition-all duration-300 ease-out', // animations,
             'md:top-16', // medium screen
             isExpanded ? "h-screen z-modal !top-0 !bg-gray-200" : "z-50 !top-14", // drawer display: ;
-            showMobileFunctionalSearch && "!px-0" // functional search display
+            displayState === "isSearching" && "!px-0" // functional search display: ;
           ])
         }
       >
@@ -79,49 +86,58 @@ export default function Search() {
           {/* Close button */}
           <div
             className={`btn btn-circle btn-outline btn-sm border text-gray-400 mb-5 bg-white absolute top-5 left-5`}
-            onClick={!showMobileFunctionalSearch ? handleCloseDrawer : handleMobileDrawerBackButton}
+            onClick={displayState === 'baseDrawer' ? handleCloseDrawer : handleMobileDrawerBackButton}
           >
-            {!showMobileFunctionalSearch && <FaTimes className="text-black" />}
-            {showMobileFunctionalSearch && <FaChevronLeft className="text-black" />}
+            {displayState === 'baseDrawer' && <FaTimes className="text-black" />}
+            {displayState !== 'baseDrawer' && <FaChevronLeft className="text-black" />}
           </div>
 
           {/* Drawer content */}
-          <div className='flex flex-col space-y-5'>
-            <div className={clsx(
+
+          {/* Location Search */}
+          <div
+            className={clsx(
               `w-full p-5 flex justify-start flex-col space-y-5 bg-white shadow-2xl rounded-2xl`, // general CSS
               'transition-[max-height] duration-300', // animations
-              showMobileFunctionalSearch && "h-screen"
-              )}>
-              <div className={`${showMobileFunctionalSearch ? "hidden" : "visible"} flex flex-col space-y-3`}>
-                <h1 className="font-bold text-lg text-black">Where to?</h1>
-                <MobileFakeSearch onClick={() => {
-                  setShowMobileFunctionalSearch(true);
-                  setInputFocus();
-                }}/>
-              </div>
-              <MobileFunctionalSearch
+              displayState === 'isSearching' && "h-screen",
+              displayState === 'hasSelected' && "cursor-pointer rounded-xl"
+            )}
+            onClick={displayState === 'hasSelected' ? setDisplayStateToBaseDrawer : () => {}}
+          >
+
+            {displayState === 'baseDrawer' && <MobileFakeSearch
+              location={chosenLocation}
+              onClick={() => {
+                setDisplayState('isSearching');
+                setInputFocus();
+              }}/>
+            }
+
+            {(displayState === 'isSearching' ) && <MobileFunctionalSearch
                 ref={inputRef}
-                className={`${showMobileFunctionalSearch ? "visible" : "hidden"}`}
                 onClick={handleChooseLocation}
                 location={chosenLocation}
+                clearLocation={setClearLocation}
               />
-              {chosenLocation &&
-                  <div className="w-full flex justify-between">
-                    <div className="text-gray-500 text-sm">Where</div>
-                    <div className="text-gray-800 text-sm font-semibold">{chosenLocation.display_name}</div>
-                  </div>
-              }
-            </div>
+            }
 
-            <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
-              <div className="text-gray-500 text-sm">When</div>
-              <div className="text-gray-800 text-sm font-semibold">Add dates</div>
-            </button>
-            <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
-              <div className="text-gray-500 text-sm">Who</div>
-              <div className="text-gray-800 text-sm font-semibold">Add guests</div>
-            </button>
+            {chosenLocation && displayState === 'hasSelected' && <SelectedSearch
+              location={chosenLocation}
+              onClick={() => setDisplayState('baseDrawer')}/>
+            }
           </div>
+
+          {/* Date Input */}
+          <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
+            <div className="text-gray-500 text-sm">When</div>
+            <div className="text-gray-800 text-sm font-semibold">Add dates</div>
+          </button>
+
+          {/* Guest input */}
+          <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
+            <div className="text-gray-500 text-sm">Who</div>
+            <div className="text-gray-800 text-sm font-semibold">Add guests</div>
+          </button>
         </div>
       </div>
 

@@ -4,21 +4,33 @@ import { useDebounce } from '~/hooks/useDebounce';
 import { FaSearch, FaArchway, FaRoute, FaTimesCircle } from 'react-icons/fa';
 import { IoLocationOutline, IoMapOutline } from "react-icons/io5";
 import { useGetLocations } from '~/api';
-import type { GenericCustomComponent, SearchLocation } from '~/types';
+import type {
+  GenericCustomComponent,
+  SearchLocation,
+  BookingSearchPreference
+} from '~/types';
+
+interface SearchInputProps extends GenericCustomComponent {
+  preference?: BookingSearchPreference
+}
 
 export default function SearchInput({
   className,
-  onClick = () => {}
-}: GenericCustomComponent) {
+  onClick = () => {},
+  preference
+}: SearchInputProps) {
+
+  const dates = `${preference?.startDate} - ${preference?.endDate}`;
+
   return (
     <div
-      className={`w-full px-5 py-5 bg-gray-200 flex flex-row justify-start items-center shadow-lg lg:hidden rounded-full ${className}`}
+      className={`w-full px-5 py-4 bg-gray-200 flex flex-row justify-start items-center shadow-lg lg:hidden rounded-full ${className}`}
       onClick={onClick}
     >
       <FaSearch className="mr-5 text-gray-700" />
       <div className="flex flex-col space-y-1">
-        <div className="text-black font-semibold text-xs">Mexico City</div>
-        <div className="text-gray-600 font-light text-xs">Apr 9 - Apr 23</div>
+        <div className="text-black font-semibold text-xs">{preference ? preference.location.display_name : "Anywhere"}</div>
+        <div className="text-gray-600 font-light text-xs">{preference ? dates : "Anytime"}</div>
       </div>
     </div>
   );
@@ -29,7 +41,7 @@ interface MobileFakeSearchProps extends GenericCustomComponent {
 }
 
 export const MobileFakeSearch = ({ className="", onClick, location }: MobileFakeSearchProps) => {
-  console.log({location})
+
   return (
     <div className={`flex flex-col space-y-3`}>
       <h1 className="font-bold text-lg text-black">Where to?</h1>

@@ -11,7 +11,8 @@ import { useFocus } from '~/hooks/useFocus';
 import { FaTimes, FaChevronLeft } from 'react-icons/fa';
 import SearchInput, { MobileFakeSearch, MobileFunctionalSearch, SelectedSearch } from '~/components/search';
 import HouseCard from '~/components/card'
-import { SearchLocation } from '~/types';
+import { SearchLocation, BookingSearchPreference } from '~/types';
+import MobileSearchDrawer from './MobileDrawer';
 
 export default function Search() {
   const {
@@ -27,15 +28,12 @@ export default function Search() {
   } = useFavorites();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [showMobileFunctionalSearch, setShowMobileFunctionalSearch] = useState(false);
   const [inputRef, setInputFocus] = useFocus();
   const [chosenLocation, setChosenLocation] = useState<SearchLocation>()
   const [displayState, setDisplayState] = useState< 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected' >('baseDrawer');
 
   const handleCloseDrawer = () => {
-    console.log('click');
     setIsExpanded(false);
-    setShowMobileFunctionalSearch(false);
   }
 
   const handleMobileDrawerBackButton = () => {
@@ -59,7 +57,7 @@ export default function Search() {
     <div className="">
 
       {/* Map */}
-      <LazyMap className="h-screen w-screen fixed top-40">
+      <LazyMap className="h-screen w-screen fixed top-[9.5rem]">
         <LazyMarker position={[51.505, -0.09]}>
           <LazyPopup>
             <div>test</div>
@@ -79,66 +77,13 @@ export default function Search() {
           ])
         }
       >
-        <SearchInput className={`${isExpanded && "hidden"}`} onClick={() => setIsExpanded(true)}/>
+        <SearchInput
+          className={`${isExpanded && "hidden"}`}
+          onClick={() => setIsExpanded(true)}
+        />
 
-        <div className={`${isExpanded ? "visible" : "hidden"} w-full flex flex-col space-y-5 pt-16`}>
-
-          {/* Close button */}
-          <div
-            className={`btn btn-circle btn-outline btn-sm border text-gray-400 mb-5 bg-white absolute top-5 left-5`}
-            onClick={displayState === 'baseDrawer' ? handleCloseDrawer : handleMobileDrawerBackButton}
-          >
-            {displayState === 'baseDrawer' && <FaTimes className="text-black" />}
-            {displayState !== 'baseDrawer' && <FaChevronLeft className="text-black" />}
-          </div>
-
-          {/* Drawer content */}
-
-          {/* Location Search */}
-          <div
-            className={clsx(
-              `w-full p-5 flex justify-start flex-col space-y-5 bg-white shadow-2xl rounded-2xl`, // general CSS
-              'transition-[max-height] duration-300', // animations
-              displayState === 'isSearching' && "h-screen",
-              displayState === 'hasSelected' && "cursor-pointer rounded-xl"
-            )}
-            onClick={displayState === 'hasSelected' ? setDisplayStateToBaseDrawer : () => {}}
-          >
-
-            {displayState === 'baseDrawer' && <MobileFakeSearch
-              location={chosenLocation}
-              onClick={() => {
-                setDisplayState('isSearching');
-                setInputFocus();
-              }}/>
-            }
-
-            {(displayState === 'isSearching' ) && <MobileFunctionalSearch
-                ref={inputRef}
-                onClick={handleChooseLocation}
-                location={chosenLocation}
-                clearLocation={setClearLocation}
-              />
-            }
-
-            {chosenLocation && displayState === 'hasSelected' && <SelectedSearch
-              location={chosenLocation}
-              onClick={() => setDisplayState('baseDrawer')}/>
-            }
-          </div>
-
-          {/* Date Input */}
-          <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
-            <div className="text-gray-500 text-sm">When</div>
-            <div className="text-gray-800 text-sm font-semibold">Add dates</div>
-          </button>
-
-          {/* Guest input */}
-          <button className={`w-full p-5 flex justify-between bg-white shadow-md rounded-xl transition-[max-height] duration-300`}>
-            <div className="text-gray-500 text-sm">Who</div>
-            <div className="text-gray-800 text-sm font-semibold">Add guests</div>
-          </button>
-        </div>
+        {/* Drawer */}
+        {isExpanded && <MobileSearchDrawer handleCloseDrawer={handleCloseDrawer}/>}
       </div>
 
       {/* Listings */}

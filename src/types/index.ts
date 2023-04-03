@@ -24,3 +24,10 @@ export interface GenericCustomComponent {
   className?: string;
   onClick?: () => void;
 }
+
+export interface BookingSearchPreference {
+  location: SearchLocation;
+  startDate: Date;
+  endDate: Date;
+  guestCount: number;
+}

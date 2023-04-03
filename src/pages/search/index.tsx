@@ -5,14 +5,15 @@ import { LazyMap, LazyMarker, LazyPopup } from '~/components/leafletMap.lazy';
 
 // Custom hooks and APIs
 import { useListings, useFavorites } from '~/api/';
-import { useFocus } from '~/hooks/useFocus';
 
 // Components
 import { FaTimes, FaChevronLeft } from 'react-icons/fa';
-import SearchInput, { MobileFakeSearch, MobileFunctionalSearch, SelectedSearch } from '~/components/search';
+import SearchInput from '~/components/search';
 import HouseCard from '~/components/card'
 import { SearchLocation, BookingSearchPreference } from '~/types';
 import MobileSearchDrawer from './MobileDrawer';
+
+type SearchState = 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected'
 
 export default function Search() {
   const {
@@ -28,30 +29,10 @@ export default function Search() {
   } = useFavorites();
 
   const [isExpanded, setIsExpanded] = useState(false);
-  const [inputRef, setInputFocus] = useFocus();
-  const [chosenLocation, setChosenLocation] = useState<SearchLocation>()
-  const [displayState, setDisplayState] = useState< 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected' >('baseDrawer');
 
   const handleCloseDrawer = () => {
     setIsExpanded(false);
   }
-
-  const handleMobileDrawerBackButton = () => {
-    setDisplayState('baseDrawer');
-  }
-
-  const handleChooseLocation = (location: SearchLocation) => {
-    handleMobileDrawerBackButton();
-    setChosenLocation(location)
-    setDisplayState('hasSelected')
-  }
-
-  const setDisplayStateToBase = () => setDisplayState('base')
-  const setDisplayStateToBaseDrawer = () => setDisplayState('baseDrawer')
-  const setDisplaystateToIsSearching = () => setDisplayState('isSearching')
-  const setDisplayStateToHasSelected = () => setDisplayState('hasSelected')
-
-  const setClearLocation = () => setChosenLocation(undefined);
 
   return (
     <div className="">
@@ -69,21 +50,20 @@ export default function Search() {
       <div
         className={
           clsx([
-            'py-4 fixed w-screen px-5 flex items-start justify-center shadow-xl bg-white', // general CSS
+            'py-4 fixed w-screen flex items-start justify-center shadow-xl bg-white', // general CSS
             'transition-all duration-300 ease-out', // animations,
             'md:top-16', // medium screen
             isExpanded ? "h-screen z-modal !top-0 !bg-gray-200" : "z-50 !top-14", // drawer display: ;
-            displayState === "isSearching" && "!px-0" // functional search display: ;
           ])
         }
       >
         <SearchInput
-          className={`${isExpanded && "hidden"}`}
+          className={`${isExpanded && "hidden"} mx-5`}
           onClick={() => setIsExpanded(true)}
         />
 
         {/* Drawer */}
-        {isExpanded && <MobileSearchDrawer handleCloseDrawer={handleCloseDrawer}/>}
+        {isExpanded && <MobileSearchDrawer handleCloseDrawer={handleCloseDrawer} />}
       </div>
 
       {/* Listings */}

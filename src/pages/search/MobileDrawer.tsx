@@ -12,6 +12,8 @@ import { FaTimes, FaChevronLeft } from 'react-icons/fa';
 import { MobileFakeSearch, MobileFunctionalSearch, SelectedSearch } from '~/components/search';
 import { SearchLocation, BookingSearchPreference } from '~/types';
 
+type SearchState = 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected'
+
 interface DrawerProps {
   handleCloseDrawer: () => void;
 }
@@ -19,7 +21,7 @@ interface DrawerProps {
 export default function MobileSearchDrawer({ handleCloseDrawer }: DrawerProps) {
   const [inputRef, setInputFocus] = useFocus();
   const [chosenLocation, setChosenLocation] = useState<SearchLocation>()
-  const [displayState, setDisplayState] = useState< 'base' | 'baseDrawer' | 'isSearching' | 'hasSelected' >('baseDrawer');
+  const [displayState, setDisplayState] = useState<SearchState>('baseDrawer');
 
   const handleMobileDrawerBackButton = () => {
     setDisplayState('baseDrawer');
@@ -28,18 +30,21 @@ export default function MobileSearchDrawer({ handleCloseDrawer }: DrawerProps) {
   const handleChooseLocation = (location: SearchLocation) => {
     handleMobileDrawerBackButton();
     setChosenLocation(location)
-    setDisplayState('hasSelected')
+    setDisplayStateToHasSelected();
   }
 
   const setDisplayStateToBase = () => setDisplayState('base')
   const setDisplayStateToBaseDrawer = () => setDisplayState('baseDrawer')
-  const setDisplaystateToIsSearching = () => setDisplayState('isSearching')
+  const setDisplaystateToIsSearching = () => setDisplayState('isSearching');
   const setDisplayStateToHasSelected = () => setDisplayState('hasSelected')
 
   const setClearLocation = () => setChosenLocation(undefined);
 
   return (
-    <div className={`w-full flex flex-col space-y-5 pt-16 z-modal`}>
+    <div className={clsx(
+      `w-full flex flex-col space-y-5 pt-16 z-modal transition-all duration-300 ease-out`, // basic CSS
+      displayState === 'isSearching' ? 'px-0' : 'px-5'
+    )}>
 
       {/* Close button */}
       <div
@@ -66,7 +71,7 @@ export default function MobileSearchDrawer({ handleCloseDrawer }: DrawerProps) {
         {displayState === 'baseDrawer' && <MobileFakeSearch
           location={chosenLocation}
           onClick={() => {
-            setDisplayState('isSearching');
+            setDisplaystateToIsSearching();
             setInputFocus();
           }}/>
         }
@@ -81,7 +86,7 @@ export default function MobileSearchDrawer({ handleCloseDrawer }: DrawerProps) {
 
         {chosenLocation && displayState === 'hasSelected' && <SelectedSearch
           location={chosenLocation}
-          onClick={() => setDisplayState('baseDrawer')}/>
+          onClick={setDisplayStateToBaseDrawer}/>
         }
       </div>
 

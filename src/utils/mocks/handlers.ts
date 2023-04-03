@@ -11,10 +11,10 @@ export const handlers = [
     )
   }),
 
-  rest.get('/me/favorites', (req, res, ctx) => {
+  rest.get('/api/me/favorites', (req, res, ctx) => {
     return res(
       ctx.status(200),
       ctx.json([generateFavorites(listings, 2)])
     )
-  })
+  }),
 ]

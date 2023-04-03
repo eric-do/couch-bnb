@@ -1,4 +1,5 @@
 import { queryAllByText, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import { rest } from 'msw';
 import '@testing-library/jest-dom';
 import { IHouseCard } from '~/types';
@@ -35,7 +36,13 @@ describe('Search page', () => {
     expect(inactiveFavorites.length).toBe(listings.length - favoritesCount);
   })
 
-  it('displays the search drawer when user clicks on search input', () => {
+  it('displays the search drawer when user clicks on search input', async () => {
+    render(<Search />)
 
+    const fakeSearchInput = screen.getByText('Anywhere');
+    userEvent.click(fakeSearchInput);
+
+    const drawerSearchCard = await screen.findByRole('heading', { name: 'Where to?' });
+    expect(drawerSearchCard).toBeInTheDocument()
   })
 })
